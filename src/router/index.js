@@ -1,19 +1,77 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import login from '../views/login/login'
+import count from '../views/login/count'
+import userMenu from '../views/userMenu/userIndex'
+import adminMenu from '../views/adminMenu/adminIndex'
+import userManage from '../views/adminModule/userManage/userManage'
+import addAdmin from '../views/adminModule/adminManage/addAdmin'
+import adminManage from '../views/adminModule/adminManage/adminManage'
+import addCategory from "@/views/adminModule/commodityCategory/addCategory";
+import lookCategory from "@/views/adminModule/commodityCategory/lookCategory";
+import addCommodity from "@/views/adminModule/commodityManage/addCommodity";
+import lookCommodity from "@/views/adminModule/commodityManage/lookCommodity";
+import addOrder from "@/views/adminModule/orderManage/addOrder";
+import index from "../views/index"
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'login',
+    component: login
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/count',
+    name: 'count',
+    component: count
+  },
+  {
+    path: '/userMenu',
+    name: 'userMenu',
+    component: userMenu
+  },
+  {
+    path: '/adminMenu',
+    name: 'adminMenu',
+    component: adminMenu,
+    children:[
+        {
+        path: 'userManage',
+        name: 'userManage',
+        component: userManage
+      },{
+        path: 'addAdmin',
+        name: 'addAdmin',
+        component: addAdmin
+      },{
+        path: 'adminManage',
+        name: 'adminManage',
+        component: adminManage
+      },{
+        path: 'addCategory',
+        name: 'addCategory',
+        component: addCategory
+      },{
+        path: 'lookCategory',
+        name: 'lookCategory',
+        component: lookCategory
+      },{
+        path: 'addCommodity',
+        name: 'addCommodity',
+        component: addCommodity
+      },{
+        path: 'lookCommodity',
+        name: 'lookCommodity',
+        component: lookCommodity
+      },{
+        path: 'addOrder',
+        name: 'addOrder',
+        component: addOrder
+      },{
+        path: 'index',
+        name: 'index',
+        component: index
+      }
+    ]
   }
 ]
 
