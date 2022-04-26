@@ -1,7 +1,5 @@
 <template>
-
   <div><h1>用户列表</h1></div>
-
   <div style="width: 100%;">
     <el-divider style="margin-top: -10px"/>
     <el-form :model="user" rules="rules" style="margin: 5px 5px 5px 50px">

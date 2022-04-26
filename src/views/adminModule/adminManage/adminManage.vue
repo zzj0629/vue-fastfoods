@@ -181,7 +181,6 @@ export default {
           console.log(err)
         })
       }
-
     },adminDelete(index,data){
       if(data.id==this.$cookies.get("id")){
         ElMessage({
@@ -189,7 +188,25 @@ export default {
           type: 'error',
         })
       }else{
-
+        //删除管理员 不好使 待修正
+        let url=$store.state.url+"deleteAdminById?id="+data.id
+        Axios.post(url).then(response=>{
+          if(response.data==1){
+            ElMessage({
+              message: '删除成功',
+              type: 'success',
+            })
+            this.$router.push({path:'/adminMenu/index',query:{path:'adminManage'} })
+          }else{
+            ElMessage({
+              message: '删除失败',
+              type: 'error',
+            })
+          }
+        }).catch(error=>{
+          alert("错误")
+          console.log(error)
+        })
       }
     }
   },mounted(){
