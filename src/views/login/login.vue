@@ -45,6 +45,7 @@
 import Axios from 'axios'
 import $store from '../../store/index.js'
 import {ElMessage} from "element-plus";
+import md5 from "js-md5";
 export default {
   name: "login",
   data(){
@@ -82,6 +83,7 @@ export default {
         Axios.post(url)
             .then(response => {//请求成功处理
               if(response.data==''){
+                console.log(response.data)
                 ElMessage({
                   message: '暂无此用户',
                   type: 'error',

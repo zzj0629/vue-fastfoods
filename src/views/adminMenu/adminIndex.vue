@@ -1,6 +1,5 @@
 <template>
   <el-container>
-
     <el-header>
       <div style="width: 100%;   ">
         <h1 style=" display: inline-block;margin-left: 40%">速食品商城后台管理</h1>
@@ -14,7 +13,6 @@
         </el-dropdown>
       </div>
     </el-header>
-
     <el-divider/>
     <el-container>
       <el-aside width="220px" >
@@ -80,7 +78,6 @@
         </div>
       </el-main>
     </el-container>
-
   </el-container>
 </template>
 
@@ -97,7 +94,6 @@ export default {
     }
   }, mounted() {
     this.user = this.$cookies.get("username")
-
   }
 }
 </script>
@@ -108,7 +104,6 @@ export default {
   left: 20px;
   margin-left: 50px;
 }
-
 #userIon {
   font-size: 5px;
   margin-top: 15px;
