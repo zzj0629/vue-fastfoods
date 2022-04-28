@@ -171,7 +171,7 @@ export default {
       this.updatagood.typeName=data.typeName;
       this.updatagood.star=data.star;
       this.updatagood.pubdate=data.pubdate;
-      this.updatagood.imgUrl=data.imgUrl;
+      this.updatagood.imgUrl=data.picture;
       this.updatagood.intro=data.intro;
       this.dialogVisible=true;
     },goodUpdataRequest(){
