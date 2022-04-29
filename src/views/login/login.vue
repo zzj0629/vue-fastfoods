@@ -110,7 +110,7 @@ export default {
                 if(this.user.role===0){
                   this.$router.push({path: '/adminMenu'})
                 }else{
-                  this.$router.push({path: '/userMenu'})
+                  this.$router.push({path: '/userMenu/userHome'})
                 }
               }
             })

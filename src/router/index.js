@@ -12,6 +12,7 @@ import addCommodity from "@/views/adminModule/commodityManage/addCommodity";
 import lookCommodity from "@/views/adminModule/commodityManage/lookCommodity";
 import orderManage from "@/views/adminModule/orderManage/orderManage";
 import index from "../views/index"
+import userHome from "@/views/userModule/home/userHome";
 
 const routes = [
   {
@@ -27,7 +28,14 @@ const routes = [
   {
     path: '/userMenu',
     name: 'userMenu',
-    component: userMenu
+    component: userMenu,
+    children: [
+      {
+        path:'userHome',
+        name:userHome,
+        component: userHome
+      }
+    ]
   },
   {
     path: '/adminMenu',
