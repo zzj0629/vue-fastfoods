@@ -68,7 +68,7 @@
               </el-icon>
               <span>订单管理</span>
             </template>
-            <el-menu-item index="/adminMenu/addOrder">查看订单</el-menu-item>
+            <el-menu-item index="/adminMenu/orderManage">查看订单</el-menu-item>
           </el-sub-menu>
         </el-menu>
       </el-aside>

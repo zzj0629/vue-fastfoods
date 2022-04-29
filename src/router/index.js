@@ -10,7 +10,7 @@ import addCategory from "@/views/adminModule/commodityCategory/addCategory";
 import lookCategory from "@/views/adminModule/commodityCategory/lookCategory";
 import addCommodity from "@/views/adminModule/commodityManage/addCommodity";
 import lookCommodity from "@/views/adminModule/commodityManage/lookCommodity";
-import addOrder from "@/views/adminModule/orderManage/addOrder";
+import orderManage from "@/views/adminModule/orderManage/orderManage";
 import index from "../views/index"
 
 const routes = [
@@ -63,9 +63,9 @@ const routes = [
         name: 'lookCommodity',
         component: lookCommodity
       },{
-        path: 'addOrder',
-        name: 'addOrder',
-        component: addOrder
+        path: 'orderManage',
+        name: 'orderManage',
+        component: orderManage
       },{
         path: 'index',
         name: 'index',
