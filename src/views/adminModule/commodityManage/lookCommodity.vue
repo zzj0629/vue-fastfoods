@@ -197,7 +197,6 @@ export default {
     },success(res,file){
       this.updatagood.imgUrl=file.response
     },goodDelete(index,data){
-      alert(data.id)
       let url=$store.state.url+"deleteFoodsInformation?id="+data.id
       Axios.post(url).then(response=>{
         ElMessage({

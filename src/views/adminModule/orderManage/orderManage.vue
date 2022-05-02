@@ -68,6 +68,15 @@ export default {
         // alert(this.searchData.username+this.searchData.flag)
         this.tableData=response.data
         for(let i = 1;  i<=response.data.length;i++){
+          if(this.tableData[i-1].flag===1){
+            this.tableData[i-1].flag='未支付'
+          }else if(this.tableData[i-1].flag===2){
+            this.tableData[i-1].flag='已支付，待发货'
+          }else if(this.tableData[i-1].flag===3){
+            this.tableData[i-1].flag='已发货，待收货'
+          }else if(this.tableData[i-1].flag===4){
+            this.tableData[i-1].flag='已收货'
+          }
           this.tableData[i-1].num=i;
         }
         if(response.data==""){
