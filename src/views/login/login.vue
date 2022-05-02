@@ -55,8 +55,8 @@ export default {
         password:'',
         role:1
       },
-      userErr:'*请输入4-20位用户名',
-      passErr:'*请输入4-20位密码',
+      userErr:'*请输入2-20位用户名',
+      passErr:'*请输入6-20位密码',
       admin:'管理员',
       loginbutton:'用户登录'
     }
@@ -98,6 +98,7 @@ export default {
                   message: '登陆成功',
                   type: 'success',
                 })
+                this.$cookies.set("id",response.data.id,"1d");
                 this.$cookies.set("username",response.data.username,"1d");
                 this.$cookies.set("password",response.data.username,"1d");
                 this.$cookies.set("role",response.data.role,"1d");
@@ -124,20 +125,29 @@ export default {
       this.$router.push({path: '/count'})
     },
     useronblur(){
-      if(this.user.username.length<4 || this.user.username.length>20){
-        this.userErr='* 用户名在4-20位之间'
+      if(this.user.username.length<2 || this.user.username.length>20){
+        this.userErr='* 用户名在2-20位之间'
       }else{
         this.userErr='*'
       }
     }, passonblur(){
-      if(this.user.password.length<4 || this.user.password.length>20){
+      if(this.user.password.length<6 || this.user.password.length>20){
         this.passtishi=true;
-        this.passErr='* 密码在4-20位之间'
+        this.passErr='* 密码在6-20位之间'
       }else{
         this.passtishi=false;
         this.passErr='*'
       }
     },
+  },mounted() {
+    this.$cookies.remove("username");
+    this.$cookies.remove("password");
+    this.$cookies.remove("role")
+    this.$cookies.remove("email")
+    this.$cookies.remove("gender")
+    this.$cookies.remove("flag")
+    this.$cookies.remove("activatecode")
+    this.$cookies.remove("createtime")
   }
 }
 </script>
@@ -151,10 +161,8 @@ export default {
   margin-top: -10px;
   margin-left: -10px;
   position: fixed;
-
 }
 .loginback{
-
   width: 60%;
   height: 30%;
   margin-top: 10%;
@@ -164,12 +172,10 @@ export default {
   border-radius: 10px;
   background-color: rgba(240, 240, 240);
   box-shadow: 1px 1px 1px 1px white;
-
 }
 .tishi{
   color: red;
   margin-left: 20px;
   font-size: 5px;
-
 }
 </style>

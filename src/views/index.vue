@@ -17,6 +17,8 @@ export default {
       this.$router.push({path: '/adminMenu/lookCommodity'})
     }else if(request==='orderManage'){
       this.$router.push({path: '/adminMenu/orderManage'})
+    }else if(request==='userIndex'){
+      this.$router.push({path: '/userMenu/userLookCommodity',query:{typeName:this.$route.query.typeName}})
     }
   }
 }

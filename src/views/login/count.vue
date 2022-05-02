@@ -85,9 +85,9 @@ export default {
         email:'',
         sex:'',
       },
-      userErr:'*请输入4-20位用户名',
-      passErr:'*请输入4-20位密码',
-      pass2Err:'*请输入4-20位密码',
+      userErr:'*请输入2-20位用户名',
+      passErr:'*请输入6-20位密码',
+      pass2Err:'*请输入6-20位密码',
     }
   },$store,methods:{
     login(){
@@ -137,23 +137,22 @@ export default {
               console.log(error);
             });
       }
-    },
-    useronblur(){
-      if(this.user.username.length<4 || this.user.username.length>20){
-        this.userErr='* 用户名在4-20位之间'
+    },useronblur(){
+      if(this.user.username.length<2 || this.user.username.length>20){
+        this.userErr='* 用户名在2-20位之间'
       }else{
         this.userErr='*'
       }
     }, passonblur(){
-      if(this.user.password.length<4 || this.user.password.length>20){
-        this.passErr='* 密码在4-20位之间'
+      if(this.user.password.length<6 || this.user.password.length>20){
+        this.passErr='* 密码在6-20位之间'
       }else{
         this.passErr='*'
       }
     },
     pass2onblur(){
-      if(this.user.password2.length<4 || this.user.password2.length>20){
-        this.pass2Err='* 密码在4-20位之间'
+      if(this.user.password2.length<6 || this.user.password2.length>20){
+        this.pass2Err='* 密码在6-20位之间'
       }else if(this.user.password!=this.user.password2){
         this.pass2Err='* 两次密码输入不一致'
       }else{

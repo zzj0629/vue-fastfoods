@@ -2,9 +2,6 @@
   <div class="common-layout">
     <el-container>
       <el-header>
-        <div style="width: 100%;   ">
-
-        </div>
         <el-menu
             class="el-menu-demo"
             mode="horizontal"
@@ -14,24 +11,27 @@
             <el-avatar id="userIon"> {{ user }}</el-avatar>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-on:click="myOrder()">我的订单</el-dropdown-item>
-                <el-dropdown-item v-on:click="myAddress()">我的地址</el-dropdown-item>
+                <el-dropdown-item v-on:click="userinformation()">个人信息</el-dropdown-item>
+                <el-dropdown-item v-on:click="myAddress()">我的收货地址</el-dropdown-item>
                 <el-dropdown-item v-on:click="cart()">购物车</el-dropdown-item>
+                <el-dropdown-item v-on:click="myOrder()">我的订单</el-dropdown-item>
                 <el-dropdown-item v-on:click="quit()">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
+          <el-menu-item index="0" v-on:click="home()">
+            首页
+          </el-menu-item>
           <el-menu-item :index="category.id"
                         v-for="category in menuData"
-                        v-on:click="categoryIndex(category.id)"
+                        v-on:click="categoryIndex(category.name)"
           >{{ category.name }}
           </el-menu-item>
           <span id="searchS">
           <el-input v-model="input" placeholder="搜索" class="searchI" clearable/>
-             <el-button type="primary" :icon="Search">搜索</el-button>
+             <el-button type="primary" v-on:click="Search">搜索</el-button>
           </span>
         </el-menu>
-
       </el-header>
       <el-main>
         <router-view/>
@@ -51,14 +51,23 @@ export default {
     return {
       menuData: [],
       user: '',
-      input: ''
+      input: '',
+      name:'',
     }
   }, $store, methods: {
     categoryIndex(name) {
-      // alert(name)
+      this.$router.push({path:'/userMenu/usermenuindex',query:{path:'userIndex',typeName:name} })
     }, quit() {
       this.$router.push({path: '/'})
-    },
+    },home(){
+      this.$router.push({path: '/userMenu/userHome'})
+    },Search(){
+      this.$router.push({path:'/userMenu/usermenuindex',query:{path:'userIndex',name:this.input} })
+    },myAddress(){
+      this.$router.push({path:'/userMenu/userAddress'})
+    },cart(){
+      this.$router.push({path:'/userMenu/cart'})
+    }
   }, mounted() {
     let url = $store.state.url + "selectCategory"
     Axios.post(url).then(response => {

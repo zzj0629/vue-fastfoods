@@ -13,6 +13,11 @@ import lookCommodity from "@/views/adminModule/commodityManage/lookCommodity";
 import orderManage from "@/views/adminModule/orderManage/orderManage";
 import index from "../views/index"
 import userHome from "@/views/userModule/home/userHome";
+import userLookCommodity from "@/views/userModule/commodity/userLookCommodity"
+import usermenuindex from "../views/usermenuindex"
+import commodityDetails from "@/views/userModule/commodity/commodityDetails"
+import cart from "@/views/userModule/cart/cart"
+import userAddress from "@/views/userModule/userAddress/userAddress"
 
 const routes = [
   {
@@ -34,7 +39,32 @@ const routes = [
         path:'userHome',
         name:userHome,
         component: userHome
-      }
+      },{
+        path: 'userLookCommodity',
+        name: 'userLookCommodity',
+        component: userLookCommodity
+      },{
+        path: 'usermenuindex',
+        name: 'usermenuindex',
+        component: usermenuindex
+      },{
+        path: 'commodityDetails',
+        name: 'commodityDetails',
+        component: commodityDetails
+      },{
+        path: 'cart',
+        name: 'cart',
+        component: cart
+      },{
+        path: 'userAddress',
+        name: 'userAddress',
+        component: userAddress
+      },
+      // {
+      //   path: 'commodityDetails',
+      //   name: 'commodityDetails',
+      //   component: commodityDetails
+      // }
     ]
   },
   {
