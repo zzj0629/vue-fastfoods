@@ -21,6 +21,8 @@ export default {
         query: {id: this.$route.query.id}})
     }else if(request==='userAddress'){
       this.$router.push({path: '/userMenu/userAddress'})
+    }else if(request==='cart'){
+      this.$router.push({path: '/userMenu/cart'})
     }
   }
 }

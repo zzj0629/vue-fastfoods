@@ -172,10 +172,8 @@ export default {
   margin-top: -10px;
   margin-left: -10px;
   position: fixed;
-
 }
 .loginback{
-
   width: 60%;
   height: 55%;
   margin-top: 5%;
@@ -185,17 +183,14 @@ export default {
   border-radius: 10px;
   background-color: rgba(240, 240, 240);
   box-shadow: 1px 1px 1px 1px white;
-
 }
 .tishi{
   color: red;
   margin-left: 20px;
   font-size: 5px;
-
 }
 .tishi2{
   margin-left: 20px;
   font-size: 5px;
-
 }
 </style>

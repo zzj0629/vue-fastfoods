@@ -57,6 +57,9 @@ export default {
   data() {
     return {
       tabledata:[],
+      cartdata:[],
+      cartdetail:[],
+      goodxq:[],
       typeName:'',
       img:'',
       name:'',
@@ -64,6 +67,9 @@ export default {
       pubdate:'',
       star:'',
       intro:'',
+      uid:'',
+      gid:'',
+      money:'',
       dialogVisible:false,
     }
   },methods: {
@@ -74,7 +80,70 @@ export default {
       }
       return b
     },addCart(){
-      this.dialogVisible=true;
+      this.uid = this.$cookies.get("id")
+      this.gid = this.tabledata[0].id
+      this.money = this.tabledata[0].price
+      let url = $store.state.url+"selectUserCart?uid="+this.uid
+      Axios.post(url).then(response => {
+        this.cartdata = response.data;
+        this.cid = this.cartdata[0].id
+        let url2 = $store.state.url+"seegid?cid="+this.cid
+        Axios.post(url2).then(response => {
+          this.cartdetail = response.data
+          this.gidd = this.cartdetail[0].gid
+          this.xiaoji = this.cartdetail[0].money
+          if (this.gid==this.gidd){
+            let selectprice = $store.state.url+"selectGoodsById?id="+this.gid
+            Axios.post(selectprice).then(response => {
+              this.goodxq = response.data
+              this.pricee = this.goodxq[0].price
+              this.xiaoji = this.xiaoji+this.pricee
+              alert(this.cid+" "+this.gid+" "+this.xiaoji)
+              let updateAddOne = $store.state.url+"updateAddOne?cid="+this.cid+"&gid="+this.gid+"&money="+this.xiaoji
+              Axios.post(updateAddOne).then(response => {
+                if(response.data===1){
+                  this.dialogVisible=true;
+                }else {
+                  ElMessage({
+                    message: '添加失败',
+                  })
+                }
+              }).catch()(err => {
+                ElMessage({
+                  message: '错误',
+                  type: 'error'
+                })
+              })
+            }).catch(err => {
+              ElMessage({
+                message: '错误',
+                type: 'error'
+              })
+            })
+          }else{
+            let url1 = $store.state.url+"addCommodityInCart?cid="+this.cid+"&gid="+this.gid+"&money="+this.money
+            Axios.post(url1).then(response => {
+              if(response.data===1){
+                this.dialogVisible=true;
+              }else{
+                ElMessage('添加失败')
+              }
+            }).catch(err => {
+              ElMessage({
+                message: '错误',
+                type: 'error'
+              })
+            })
+          }
+        })
+      }).catch(err => {
+        ElMessage({
+          message: '错误',
+          type: 'error'
+        })
+        console.log(err)
+      })
+      // this.dialogVisible=true;
     },lookCart(){
       this.$router.push({path: '/userMenu/cart'})
     },buyagain(){

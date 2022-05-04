@@ -18,6 +18,7 @@ import usermenuindex from "../views/usermenuindex"
 import commodityDetails from "@/views/userModule/commodity/commodityDetails"
 import cart from "@/views/userModule/cart/cart"
 import userAddress from "@/views/userModule/userAddress/userAddress"
+import orderPreview from "@/views/userModule/cart/orderpreview"
 
 const routes = [
   {
@@ -60,11 +61,11 @@ const routes = [
         name: 'userAddress',
         component: userAddress
       },
-      // {
-      //   path: 'commodityDetails',
-      //   name: 'commodityDetails',
-      //   component: commodityDetails
-      // }
+      {
+        path: 'orderPreview',
+        name: 'orderPreview',
+        component: orderPreview
+      }
     ]
   },
   {
