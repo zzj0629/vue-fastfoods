@@ -18,6 +18,10 @@ import usermenuindex from "../views/usermenuindex"
 import commodityDetails from "@/views/userModule/commodity/commodityDetails"
 import cart from "@/views/userModule/cart/cart"
 import userAddress from "@/views/userModule/userAddress/userAddress"
+import orderPreview from "@/views/userModule/cart/orderpreview"
+import myOrder from "@/views/userModule/order/myorder"
+import orderDetails from "@/views/userModule/order/orderdetails"
+import lookUser from "@/views/userModule/user/lookuser"
 
 const routes = [
   {
@@ -59,12 +63,23 @@ const routes = [
         path: 'userAddress',
         name: 'userAddress',
         component: userAddress
-      },
-      // {
-      //   path: 'commodityDetails',
-      //   name: 'commodityDetails',
-      //   component: commodityDetails
-      // }
+      },{
+        path: 'orderPreview',
+        name: 'orderPreview',
+        component: orderPreview
+      },{
+        path: 'myOrder',
+        name: 'myOrder',
+        component: myOrder
+      },{
+        path: 'orderDetails',
+        name: 'orderDetails',
+        component: orderDetails
+      },{
+        path: 'lookUser',
+        name: 'lookUser',
+        component: lookUser
+      }
     ]
   },
   {

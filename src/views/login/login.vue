@@ -94,8 +94,9 @@ export default {
                   type: 'error',
                 })
               }else{
+                this.selectAndInsertCart(response.data.id);
                 ElMessage({
-                  message: '登陆成功',
+                  message: '登录成功',
                   type: 'success',
                 })
                 this.$cookies.set("id",response.data.id,"1d");
@@ -107,7 +108,6 @@ export default {
                 this.$cookies.set("flag",response.data.flag,"1d");
                 this.$cookies.set("activatecode",response.data.activatecode,"1d");
                 this.$cookies.set("createtime",response.data.createtime,"1d");
-
                 if(this.user.role===0){
                   this.$router.push({path: '/adminMenu'})
                 }else{
@@ -121,6 +121,17 @@ export default {
             });
       }
 
+    },selectAndInsertCart(uid){
+      let url=$store.state.url+"selectUserCart?uid="+uid
+      Axios.post(url).then(response=>{
+        if(response.data==''){
+          let url1=$store.state.url+"addNewUserCard?uid="+uid
+          Axios.post(url1).then(response=>{
+          }).catch(Err=>{
+            alert("错误");
+          })
+        }
+      })
     },account(){
       this.$router.push({path: '/count'})
     },

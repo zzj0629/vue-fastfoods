@@ -63,10 +63,14 @@ export default {
       this.$router.push({path: '/userMenu/userHome'})
     },Search(){
       this.$router.push({path:'/userMenu/usermenuindex',query:{path:'userIndex',name:this.input} })
+    },userinformation(){
+      this.$router.push({path:'/userMenu/lookUser'})
     },myAddress(){
       this.$router.push({path:'/userMenu/userAddress'})
     },cart(){
       this.$router.push({path:'/userMenu/cart'})
+    },myOrder(){
+      this.$router.push({path:'/userMenu/myOrder'})
     }
   }, mounted() {
     let url = $store.state.url + "selectCategory"

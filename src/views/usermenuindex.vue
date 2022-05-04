@@ -21,6 +21,12 @@ export default {
         query: {id: this.$route.query.id}})
     }else if(request==='userAddress'){
       this.$router.push({path: '/userMenu/userAddress'})
+    }else if(request==='cart'){
+      this.$router.push({path: '/userMenu/cart'})
+    }else if(request==='myorder'){
+      this.$router.push({path: '/userMenu/myOrder'})
+    }else if(request==='lookuser'){
+      this.$router.push({path: '/userMenu/lookuser'})
     }
   }
 }
