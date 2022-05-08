@@ -89,7 +89,7 @@ export default {
           this.orderData[i-1].flag='已支付，待发货'
         }else if(this.orderData[i-1].flag===3){
           this.orderData[i-1].flag='已发货，待收货'
-        }else if(this.orderData[i].flag===4){
+        }else if(this.orderData[i-1].flag===4){
           this.orderData[i-1].flag='已收货,订单完成'
         }
         //生成收件人信息
