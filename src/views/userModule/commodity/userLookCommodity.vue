@@ -20,7 +20,7 @@
               <span>好评度： {{ aaa(item.star) }}</span><br/><br/>
             </div>
             <div style="font-size: 13px;">
-              <span>上架日期： {{ item.pubdata }}</span><br/><br/>
+              <span>上架日期： {{ item.pubdate }}</span><br/><br/>
             </div>
             <div style="color: red;">
               <span>￥&nbsp;{{ item.price }}&nbsp;元</span><br/>

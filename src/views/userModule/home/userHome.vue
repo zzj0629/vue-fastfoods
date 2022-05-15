@@ -14,8 +14,8 @@
         <el-card :body-style="{ padding: '0px'}" shadow="always" style="height: 350px">
           <el-image
               style="width: 220px; height: 220px; margin-top: 5px"
-              :src="item.img"
-              :preview-src-list="item.img"
+              :src="item.picture"
+              :preview-src-list="item.picture"
               fit="cover"
           />
           <div style="background-color: rgba(250,250,250);">

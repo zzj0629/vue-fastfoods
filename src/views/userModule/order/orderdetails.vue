@@ -31,15 +31,15 @@
     </el-descriptions><br/>
     <div style="text-align: center;">
       <el-button @click="back()" size="large" type="primary">返回订单列表</el-button>
-      <el-button @click="pay()" size="large" type="warning">支付</el-button>
+      <el-button @click="pay()" size="large" type="warning" v-if="this.zhuangTai==1">支付</el-button>
     </div>
   </div>
   <el-dialog v-model="dialogVisible1" title="选择支付方式" width="20%" draggable>
     <div>
       <el-radio-group v-model="payStyle">
-        <el-radio label="1" border size="large" style="width: 100%">微信支付</el-radio>
+        <el-radio label="1" border size="large" style="width: 250px">微信支付&nbsp;&nbsp;</el-radio>
         <br/>
-        <el-radio label="2" border size="large" style="width: 100%">支付宝支付</el-radio>
+        <el-radio label="2" border size="large" style="width: 250px">支付宝支付</el-radio>
       </el-radio-group><br/><br/>
       <el-button @click="paytow()" size="large" type="warning">支付</el-button>
     </div>
@@ -62,6 +62,7 @@ export default {
       telephone:'',
       shAddress:'',
       orderSum:'',
+      zhuangTai:'',
       shangpinData:[],
       dialogVisible1:false,
       payStyle:''
@@ -98,6 +99,7 @@ export default {
       this.telephone = this.orderData[0].phone
       this.shAddress = this.orderData[0].detail
       this.orderSum = this.orderData[0].money
+      this.zhuangTai = this.orderData[0].flag
     })
     let selectGoodsByOid = $store.state.url + "selectGoodsByOid?oid=" + this.oid;
     Axios.post(selectGoodsByOid).then(response => {

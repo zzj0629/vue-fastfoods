@@ -10,10 +10,8 @@
         <el-form-item label="订单状态" prop="region">
           <el-select  placeholder="按订单状态查询"  v-model="searchData.flag">
             <el-option label="----------" value="" />
-            <el-option label="未支付" value="1" />
             <el-option label="已支付，待发货" value="2" />
             <el-option label="已发货，待收货" value="3" />
-            <el-option label="已收货" value="4" />
           </el-select>
         </el-form-item>
       </div>
@@ -35,12 +33,48 @@
         <el-button
             round
             color="#626aef"
+            @click="seeOrder(scope.$index, scope.row)"
+        >查看订单</el-button>
+        <el-button
+            round
+            color="#626aef"
             v-if="scope.row.flag=='已支付，待发货'"
             @click="fahuo(scope.$index, scope.row)"
         >发货</el-button>
       </template>
     </el-table-column>
   </el-table>
+
+  <el-dialog v-model="dialogVisible" title="订单详情" width="80%" draggable>
+    <el-descriptions border :column="2">
+      <el-descriptions-item label="订单编号">{{oid}}</el-descriptions-item>
+      <el-descriptions-item label="订单时间">  {{orderTime}}</el-descriptions-item>
+      <el-descriptions-item label="收件人">{{sjrName}}</el-descriptions-item>
+      <el-descriptions-item label="联系电话">{{telephone}}</el-descriptions-item>
+      <el-descriptions-item label="送货地址">{{shAddress}}</el-descriptions-item>
+      <el-descriptions-item label="订单总计">{{orderSum}}</el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            商品详情:
+          </div>
+        </template>
+        <el-table :data="shangpinData" border style="height: 400px;" stripe>
+          <el-table-column prop="spnum" label="序号" width="60" />
+          <el-table-column prop="picture" label="商品图片" width="80" >
+            <template #default="scope">
+              <img :src="scope.row.picture" alt="" style="height: 50px;width: 50px">
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="商品名称" width="150" />
+          <el-table-column prop="star" label="商品评分" width="120" />
+          <el-table-column prop="price" label="商品单价" width="170" />
+          <el-table-column prop="num" label="购买数量" width="160" />
+          <el-table-column prop="money" label="小计" width="121" />
+        </el-table>
+      </el-descriptions-item>
+    </el-descriptions>
+  </el-dialog>
 </template>
 
 <script>
@@ -52,6 +86,7 @@ export default {
   data(){
     return{
       a:false,
+      dialogVisible:false,
       tableData:[],
       searchData:{
         username:'',
@@ -59,7 +94,14 @@ export default {
       },update:{
         num:'',
         id:''
-      }
+      },
+      oid:'',
+      orderTime:'',
+      sjrName:'',
+      telephone:'',
+      shAddress:'',
+      orderSum:'',
+      shangpinData:[],
     }
   },$store,methods: {
     search(){
@@ -99,7 +141,27 @@ export default {
         })
         this.$router.push({path:'/adminMenu/index',query:{path:'orderManage'} })
       })
-    },
+    },seeOrder(index,data){
+      this.oid = data.id
+      let selectAllByOid = $store.state.url + "selectAllByOid?id=" + this.oid;
+      Axios.post(selectAllByOid).then(response => {
+        this.orderData = response.data;
+        this.orderTime = this.orderData[0].createtime
+        this.sjrName = this.orderData[0].name
+        this.telephone = this.orderData[0].phone
+        this.shAddress = this.orderData[0].detail
+        this.orderSum = this.orderData[0].money
+        this.zhuangTai = this.orderData[0].flag
+      })
+      let selectGoodsByOid = $store.state.url + "selectGoodsByOid?oid=" + this.oid;
+      Axios.post(selectGoodsByOid).then(response => {
+        this.shangpinData = response.data;
+        for (let i = 1; i <= response.data.length; i++) {
+          this.shangpinData[i-1].spnum = i;
+        }
+      })
+      this.dialogVisible=true
+    }
   },mounted() {
     let url = $store.state.url+"selectAllOrder"
     Axios.post(url).then(response=>{

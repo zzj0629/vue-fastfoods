@@ -3,8 +3,8 @@
     <div>
       <h1>我的购物车</h1>
       <el-divider style="margin-top: -10px"/>
-      <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算！</span>
-      <el-divider/>
+<!--      <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算！</span>-->
+<!--      <el-divider/>-->
     </div>
     <el-table :data="tableData" border style="height: 400px; border: 1px solid black" stripe>
       <el-table-column prop="snum" label="编号" width="150"/>

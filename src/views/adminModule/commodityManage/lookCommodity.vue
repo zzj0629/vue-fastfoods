@@ -3,30 +3,39 @@
   <div style="width: 100%;">
     <el-divider style="margin-top: -10px"/>
     <el-form :model="user" rules="rules" style="margin: 5px 5px 5px 50px">
-      <div style="display: inline-block;width: 400px">
+      <div style="display: inline-block;width: 300px">
         商品名称：<el-input v-model="searchData.name" placeholder="按商品名称搜索" clearable style="width: 50%;margin-top: -30px"/>
       </div>
-      <div style="display: inline-block;width: 400px">
-        上架时间：<el-date-picker v-model="searchData.pubdate" v-on:blur="pubdateonblur" type="date" value-format="YYYY-MM-DD" placeholder="请选择日期" style="width: 50%;margin-top: -30px"/>
+      <div style="display: inline-block;width: 300px">
+        商品类型：<el-select style="width: 50%" v-model="searchData.typeName" clearable placeholder="请选择商品分类">
+        <el-option
+            v-for="item in typeData"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name"
+        /></el-select>
       </div>
       <div style="display: inline-block;width: 300px">
+        上架时间：<el-date-picker v-model="searchData.pubdate" v-on:blur="pubdateonblur" type="date" value-format="YYYY-MM-DD" placeholder="请选择日期" style="width: 50%;margin-top: -30px"/>
+      </div>
+      <div style="display: inline-block;width: 100px">
         <el-button type="primary" v-on:click="search">搜索</el-button>
       </div>
     </el-form>
   </div>
   <el-divider style="margin-top: 10px"/>
   <div>
-    <el-table :data="tableData" style="width: 100%;" height="450" stripe >
+    <el-table :data="tableData" style="width: 100%;" height="550" stripe border>
       <el-table-column prop="num" label="序号" width="80" />
       <el-table-column prop="name" label="商品名称" width="100" />
-      <el-table-column prop="picture" label="图片" width="120">
+      <el-table-column prop="picture" label="图片" width="100">
         <template #default="scope">
-          <img :src="scope.row.picture" alt="" style="height: 100px;width: 100px">
+          <img :src="scope.row.picture" alt="" style="height: 87px;width: 87px">
         </template>
       </el-table-column>
       <el-table-column prop="typeName" label="类型" width="90" />
       <el-table-column prop="price" label="价格" width="100" />
-      <el-table-column prop="intro" label="介绍" width="180" />
+      <el-table-column prop="intro" label="介绍" width="300" />
       <el-table-column prop="pubdate" label="上架时间" width="110" />
       <el-table-column label="操作">
         <template #default="scope">
@@ -59,7 +68,6 @@
                   autocomplete="off"
                   style="width: 50%;"
                   v-model="updatagood.name"
-                  v-on:blur="nameonblur"
         ></el-input>
       </el-form-item>
       <el-form-item label="商品价格: " prop="price" style="width: 50%">
@@ -68,7 +76,6 @@
                   autocomplete="off"
                   style="width: 50%;"
                   v-model="updatagood.price"
-                  v-on:blur="priceonblur"
         ></el-input>
       </el-form-item>
       <el-form-item label="商品分类: " prop="typeName" style="float: left; width: 50%;">
@@ -77,7 +84,6 @@
                   autocomplete="off"
                   style="width: 50%;"
                   v-model="updatagood.typeName"
-                  v-on:blur="typeNameonblur"
         ></el-input>
       </el-form-item>
       <el-form-item label="商品评分: " prop="star" style="width: 50%">
@@ -86,7 +92,6 @@
                   autocomplete="off"
                   style="width: 50%;"
                   v-model="updatagood.star"
-                  v-on:blur="staronblur"
         ></el-input>
       </el-form-item>
       <el-form-item label="上架时间: " prop="pubdate">
@@ -111,7 +116,6 @@
             type="textarea"
             placeholder="请填写商品的详细信息"
             style="width: 62%"
-            v-on:blur="introonblur"
         />
       </el-form-item>
       <el-form-item style="margin-left: 80px;">
@@ -131,8 +135,10 @@ export default {
   data(){
     return{
       tableData:[],
+      typeData:[],
       searchData:{
         name:'',
+        typeName:'',
         pubdate:''
       },updatagood:{
         id:null,
@@ -148,7 +154,8 @@ export default {
     }
   },$store,methods: {
     search(){
-      let url=$store.state.url+"selectGoods?name="+this.searchData.name+"&pubdate="+this.searchData.pubdate
+      // alert(th)
+      let url=$store.state.url+"selectGoods?name="+this.searchData.name+"&typeName="+this.searchData.typeName+"&pubdate="+this.searchData.pubdate
       Axios.post(url).then(response=>{
         this.tableData=response.data
         for(let i = 1;  i<=response.data.length;i++){
@@ -216,6 +223,13 @@ export default {
       for(let i = 1;  i<=response.data.length;i++){
         this.tableData[i-1].num=i;
       }
+    }).catch(error=>{
+      alert("错误")
+      console.log(error)
+    })
+    let selectGoodsType = $store.state.url+"selectGoodsType"
+    Axios.post(selectGoodsType).then(response=>{
+      this.typeData=response.data
     }).catch(error=>{
       alert("错误")
       console.log(error)

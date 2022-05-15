@@ -20,7 +20,9 @@
               :key="item.id"
               :label="item.name+'    '+item.phone+'   '+item.detail"
               :value="item.id"
-          /></el-select><br/><br/>
+          /></el-select>
+      <el-button @click="addAddress()" style="margin-left: 30px;" size="large" type="primary">添加收货地址</el-button>
+      <br/><br/>
       <el-button @click="createorder()" size="large" type="primary">提交订单</el-button>
     </div>
   </div>
@@ -33,10 +35,10 @@
     </div>
   </el-dialog>
 </template>
-<!--tishixinxi = false-->
 <script>
 import $store from "@/store";
 import Axios from "axios";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "orderpreview",
@@ -56,28 +58,34 @@ export default {
   },methods:{
     createorder(){
       this.uid = this.$cookies.get("id")
-      //生成一个订单
-      let addorder = $store.state.url+"addOrder?uid="+this.uid+"&uaid="+this.addressId+"&money="+this.zongji
-      Axios.post(addorder).then(response=>{
-        //填写订单详情
-        for (let i = 0;i<this.tableData.length;i++){
-          this.oid = response.data
-          this.gid = this.tableData[i].gid
-          this.money = this.tableData[i].money
-          this.num = this.tableData[i].num
-          let addorderdetail = $store.state.url+"addOrderDetail?oid="+this.oid+"&gid="+this.gid+"&money="+this.money+"&num="+this.num
-          Axios.post(addorderdetail).then(response=>{
+      if (this.addressId == ''){
+        ElMessage({message: '请选择收货地址',type: 'error'})
+      }else {
+        //生成一个订单
+        let addorder = $store.state.url + "addOrder?uid=" + this.uid + "&uaid=" + this.addressId + "&money=" + this.zongji
+        Axios.post(addorder).then(response => {
+          //填写订单详情
+          for (let i = 0; i < this.tableData.length; i++) {
+            this.oid = response.data
+            this.gid = this.tableData[i].gid
+            this.money = this.tableData[i].money
+            this.num = this.tableData[i].num
+            let addorderdetail = $store.state.url + "addOrderDetail?oid=" + this.oid + "&gid=" + this.gid + "&money=" + this.money + "&num=" + this.num
+            Axios.post(addorderdetail).then(response => {
+            })
+          }
+          //清空购物车
+          this.cid = this.cartdata[0].id
+          let emptycart = $store.state.url + "deleteAllByCid?cid=" + this.cid
+          Axios.post(emptycart).then(response => {
+            this.$router.push({path: '/userMenu/myOrder'})
           })
-        }
-        //清空购物车
-        this.cid = this.cartdata[0].id
-        let emptycart = $store.state.url+"deleteAllByCid?cid="+this.cid
-        Axios.post(emptycart).then(response=>{
-          this.$router.push({path:'/userMenu/myOrder'})
         })
-      })
+      }
     },fanhui(){
       this.tishixinxi = false;
+    },addAddress(){
+      this.$router.push({path:'/userMenu/userAddress'})
     }
   },mounted(){
     this.uid=this.$cookies.get("id")

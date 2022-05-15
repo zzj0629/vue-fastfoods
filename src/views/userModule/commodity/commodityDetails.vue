@@ -15,7 +15,7 @@
           <el-divider/>
           <span>&nbsp;&nbsp;商品名称:&nbsp;&nbsp;{{ name }}</span><br/><br/>
           <span>&nbsp;&nbsp;市场价格:&nbsp;&nbsp;{{ price }}</span><br/><br/>
-          <span>&nbsp;&nbsp;上市时间:&nbsp;&nbsp;{{ pubdate }}</span><br/><br/>
+          <span>&nbsp;&nbsp;上架时间:&nbsp;&nbsp;{{ pubdate }}</span><br/><br/>
           <span>&nbsp;&nbsp;好评度:&nbsp;&nbsp;{{ aaa(star) }}</span><br/><br/>
           <span>&nbsp;&nbsp;详细介绍:
             <div style="width: 85%; font-size: 18px; margin-left: 10%; margin-top: 10px;">
@@ -85,13 +85,13 @@ export default {
       this.money = this.tabledata[0].price
       let boo = true;
       //根据用户id获取购物车id
-      let url = $store.state.url + "selectUserCart?uid=" + this.uid
-      Axios.post(url).then(response => {
+      let selectUserCart = $store.state.url + "selectUserCart?uid=" + this.uid
+      Axios.post(selectUserCart).then(response => {
         this.cartdata = response.data;
         this.cid = this.cartdata[0].id
         //根据购物车id获取商品id
-        let url2 = $store.state.url + "seegid?cid=" + this.cid
-        Axios.post(url2).then(response => {
+        let seegid = $store.state.url + "seegid?cid=" + this.cid
+        Axios.post(seegid).then(response => {
           //判断购物车是否为空
           //如果购物车为空向购物车添加商品
           if (response.data.length === 0) {

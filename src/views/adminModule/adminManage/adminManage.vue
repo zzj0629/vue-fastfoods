@@ -107,6 +107,7 @@
 import Axios from 'axios'
 import $store from '../../../store/index.js'
 import {ElMessage} from "element-plus";
+import {Encrypt, Decrypt} from '../../../AES/aes.js';
 export default {
   name: "adminManage",
   data(){
@@ -152,7 +153,7 @@ export default {
       // alert(data.id+data.username+data.password+data.email+data.gender)
       this.admin.id=data.id;
       this.admin.username=data.username;
-      this.admin.password=data.password;
+      this.admin.password=Decrypt(data.password);
       this.admin.email=data.email;
       this.admin.gender=data.gender;
       this.dialogVisible=true;
@@ -169,7 +170,7 @@ export default {
         })
       }else{
         let url=$store.state.url+"updateAdminById?id="+this.admin.id+"&username="+this.admin.username+"&password="+
-            this.admin.password+"&email="+this.admin.email+"&gender="+this.admin.gender
+            Encrypt(this.admin.password)+"&email="+this.admin.email+"&gender="+this.admin.gender
         Axios.post(url).then(response=>{
           ElMessage({
             message: '修改成功',
@@ -188,7 +189,6 @@ export default {
           type: 'error',
         })
       }else{
-        //删除管理员 不好使 待修正
         let url=$store.state.url+"deleteAdminById?id="+data.id
         Axios.post(url).then(response=>{
           if(response.data==1){

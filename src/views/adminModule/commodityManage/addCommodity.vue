@@ -24,13 +24,14 @@
         <p class="tishi">{{priceErr}}</p>
       </el-form-item>
       <el-form-item label="商品分类: " prop="typeName" style="float: left; width: 40%;">
-        <el-input type="text"
-                  placeholder="请输入商品分类"
-                  autocomplete="off"
-                  style="width: 50%;"
-                  v-model="adddata.typeName"
-                  v-on:blur="typeNameonblur"
-        ></el-input>
+        <el-select style="width: 50%" v-model="adddata.typeName" placeholder="请选择商品分类">
+          <el-option
+              v-for="item in typeData"
+              :key="item.name"
+              :label="item.name"
+              :value="item.name"
+              v-on:click="typeNameonblur"
+          /></el-select>
         <p class="tishi">{{typeNameErr}}</p>
       </el-form-item>
       <el-form-item label="商品评分: " prop="star" style="width: 40%">
@@ -55,9 +56,9 @@
             :limit="3"
             :on-success="success"
         >
-          <el-button v-model="adddata.tp" type="primary">请选择图片</el-button>
+          <el-button type="primary">请选择图片</el-button>
         </el-upload>
-        <img :src="adddata.imgUrl" alt="" style="width: 150px; height: 150px;">
+        <img :src="adddata.imgUrl" alt="" style="width: 150px; height: 150px;" v-on:load="imgUrlload">
         <p class="tishi">{{imgUrlErr}}</p>
       </el-form-item>
       <el-form-item label="商品简介: " prop="intro">
@@ -88,6 +89,7 @@ export default {
   name: "addCommodity",
   data(){
     return{
+      typeData:[],
       adddata:{
         name:'',
         price:'',
@@ -125,7 +127,10 @@ export default {
     },pubdateonblur(){
       if (this.adddata.pubdate != "") {
         this.pubdateErr = '*'
-        // alert(this.adddata.pubdate)
+      }
+    },imgUrlload(){
+      if (this.adddata.imgUrl != "") {
+        this.imgUrlErr = '*'
       }
     },introonblur(){
       if (this.adddata.intro != "") {
@@ -134,12 +139,55 @@ export default {
     },success(res,file){
       this.adddata.imgUrl=file.response
     },addcommodity(){
-      if(this.nameErr!='*' || this.priceErr!='*' || this.typeNameErr!='*' || this.starErr!='*' || this.pubdateErr!='*' || this.adddata.imgUrl=='' || this.introErr!='*') {
+      if(this.nameErr!='*' && this.priceErr!='*' && this.typeNameErr!='*' && this.starErr!='*' && this.pubdateErr!='*' && this.adddata.imgUrl!='*' && this.introErr!='*') {
         ElMessage({
-          message: '请正确输入数据',
+          message: '请按提示输入正确数据',
           type: 'error',
         })
-      }else {
+      }
+      else if(this.nameErr!='*') {
+        ElMessage({
+          message: '请输入商品名称',
+          type: 'error',
+        })
+      }
+      else if (this.priceErr!='*'){
+        ElMessage({
+          message: '请输入商品价格',
+          type: 'error',
+        })
+      }
+      else if (this.typeNameErr!='*'){
+        ElMessage({
+          message: '请选择商品分类',
+          type: 'error',
+        })
+      }
+      else if (this.starErr!='*'){
+        ElMessage({
+          message: '请输入商品评分',
+          type: 'error',
+        })
+      }
+      else if (this.pubdateErr!='*'){
+        ElMessage({
+          message: '请选择上架日期',
+          type: 'error',
+        })
+      }
+      else if (this.imgUrlErr!='*'){
+        ElMessage({
+          message: '请上传商品图片',
+          type: 'error',
+        })
+      }
+      else if (this.introErr!='*'){
+        ElMessage({
+          message: '请输入商品简介',
+          type: 'error',
+        })
+      }
+      else {
         let url=$store.state.url+
             "insertFoodsInformation?name="+this.adddata.name+
             "&price="+this.adddata.price+
@@ -161,6 +209,7 @@ export default {
             this.adddata.pubdate='',
             this.adddata.imgUrl='',
             this.adddata.intro=''
+            this.$router.push({path:'/adminMenu/index',query:{path:'addCommodity'} })
           }else{ElMessage('添加失败') }
         }).catch(function (error) {
           alert("错误");
@@ -177,7 +226,13 @@ export default {
       this.adddata.intro=''
     }
   },mounted() {
-
+    let url = $store.state.url+"selectGoodsType"
+    Axios.post(url).then(response=>{
+      this.typeData=response.data
+    }).catch(error=>{
+      alert("错误")
+      console.log(error)
+    })
   }
 }
 </script>

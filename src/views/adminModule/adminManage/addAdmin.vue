@@ -2,17 +2,17 @@
 <h1>添加管理员</h1>
   <el-divider style="margin-top: 10px"/>
   <el-form :model="admin" rules="rules" style="margin: 5px 5px 5px 50px">
-    <el-form-item label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;账号: " prop="username">
+    <el-form-item label="管理员名称: " prop="username">
       <el-input type="text"
                 v-model="admin.username"
-                placeholder="请输入账号"
+                placeholder="请输入管理员名称"
                 autocomplete="off"
                 style="width: 40%;"
                 v-on:blur="useronblur"
       ></el-input>
       <p class="tishi" >{{ userErr }}</p>
     </el-form-item>
-    <el-form-item label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码: " prop="password" >
+    <el-form-item label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码: " prop="password" >
       <el-input type="password"
                 placeholder="请输入密码"
                 show-password
@@ -24,7 +24,7 @@
       ></el-input>
       <p class="tishi"  >{{passErr}}</p>
     </el-form-item>
-    <el-form-item label="确认密码:" prop="password2" >
+    <el-form-item label="&nbsp;&nbsp;&nbsp;确认密码:" prop="password2" >
       <el-input type="password"
                 placeholder="请确认密码"
                 show-password
@@ -36,7 +36,7 @@
       ></el-input>
       <p class="tishi"  >{{pass2Err}}</p>
     </el-form-item>
-    <el-form-item label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱: " prop="email" >
+    <el-form-item label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱: " prop="email" >
       <el-input type="text"
                 placeholder="email"
                 v-model="admin.email"
@@ -50,7 +50,7 @@
         <el-radio label="男" border class="radio">男</el-radio>
         <el-radio label="女" border class="radio">女</el-radio>
       </el-radio-group>
-      <p class="tishi2" style="margin-left: 100px" >你是帅哥，还是美女</p>
+      <p class="tishi2" style="margin-left: 100px" >请选择性别</p>
     </el-form-item>
 
     <el-divider />
@@ -64,6 +64,7 @@
 import {ElMessage} from "element-plus";
 import $store from "@/store";
 import Axios from "axios";
+import {Encrypt, Decrypt} from '../../../AES/aes.js';
 export default {
   name: "addAdmin",
   data(){
@@ -76,7 +77,7 @@ export default {
         email:'',
         gender:'',
       },
-      userErr:'*请输入4-20位用户名',
+      userErr:'*请输入4-20管理员名称',
       passErr:'*请输入4-20位密码',
       pass2Err:'*请输入4-20位密码',
     }
@@ -88,7 +89,7 @@ export default {
           type: 'error',
         })
       }else{
-        let url=$store.state.url+"addAdmin?username="+this.admin.username+"&password="+this.admin.password+
+        let url=$store.state.url+"addAdmin?username="+this.admin.username+"&password="+Encrypt(this.admin.password)+
             "&email="+this.admin.email+"&gender="+this.admin.gender
         let url1=$store.state.url+"login?username="+this.admin.username+"&role=0"
         Axios.post(url1)
@@ -129,7 +130,7 @@ export default {
       }
     }, useronblur() {
       if (this.admin.username.length < 4 || this.admin.username.length > 20) {
-        this.userErr = '* 用户名在4-20位之间'
+        this.userErr = '* 管理员名称在4-20位之间'
       } else {
         this.userErr = '*'
       }

@@ -46,21 +46,22 @@
                     v-model="user.email"
                     autocomplete="off"
                     style="width: 40%;"
+                    v-on:blur="emailonblur"
           ></el-input>
-          <p class="tishi2"  >填写正确的邮箱格式</p>
+          <p class="tishi2"  >{{emailErr}}</p>
         </el-form-item>
                 <el-form-item style="margin-left: 17%">
                   <el-radio-group v-model="user.sex">
                     <el-radio label="男" border class="radio">男</el-radio>
                     <el-radio label="女" border class="radio">女</el-radio>
                   </el-radio-group>
-                  <p class="tishi2" style="margin-left: 100px" >你是帅哥，还是美女</p>
+                  <p class="tishi2" style="margin-left: 100px" >请选择性别</p>
                 </el-form-item>
 
         <el-divider />
         <el-form-item style="margin-left: 28%">
           <el-button type="primary" @click="count()" size="large" style="width: 100px">注册</el-button>
-          <el-button @click="login()" size="large" style="width: 100px">返回登陆</el-button>
+          <el-button @click="login()" size="large" style="width: 100px">返回登录</el-button>
         </el-form-item>
       </el-form>
 
@@ -72,6 +73,7 @@
 import {ElMessage} from "element-plus";
 import $store from "@/store";
 import Axios from "axios";
+import {Encrypt, Decrypt} from '../../AES/aes.js';
 
 export default {
   name: "count",
@@ -88,6 +90,7 @@ export default {
       userErr:'*请输入2-20位用户名',
       passErr:'*请输入6-20位密码',
       pass2Err:'*请输入6-20位密码',
+      emailErr:'请输入正确的邮箱格式',
     }
   },$store,methods:{
     login(){
@@ -95,11 +98,11 @@ export default {
     },count(){
       if(this.userErr!='*' || this.passErr!='*' || this.pass2Err!='*'){
         ElMessage({
-          message: '请正确输入数据',
+          message: '请按提示正确输入数据',
           type: 'error',
         })
       }else{
-        let url=$store.state.url+"account?username="+this.user.username+"&password="+this.user.password+
+        let url=$store.state.url+"account?username="+this.user.username+"&password="+Encrypt(this.user.password)+
             "&email="+this.user.email+"&gender="+this.user.sex
         let url1=$store.state.url+"login?username="+this.user.username+"&role=1"
         Axios.post(url1)
@@ -158,7 +161,14 @@ export default {
       }else{
         this.pass2Err='*'
       }
-    },
+    },emailonblur(){
+      let e = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+      if (e.test(this.user.email)){
+        this.emailErr = '邮箱格式正确'
+      }else {
+        this.user.email = ''
+      }
+    }
   }
 }
 </script>

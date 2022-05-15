@@ -2,7 +2,7 @@
   <div class="background">
     <div class="loginback">
       <div style="margin-top: -30px">
-        <h3 style="display: inline-block">欢迎登陆速食品售卖系统</h3>
+        <h3 style="display: inline-block">欢迎登录速食品售卖系统</h3>
         <el-button type="text" style="float: right;margin-top: 10px" v-on:click="adminbutton">{{ admin }}</el-button>
         <el-divider style="margin-top: -10px"/>
       </div>
@@ -31,9 +31,9 @@
         </el-form-item>
 
         <el-divider />
-        <el-form-item style="margin-left: 28%">
+        <el-form-item style="margin-left: 28%;">
           <el-button type="primary" @click="login()" size="large" style="width: 100px">{{loginbutton}}</el-button>
-          <el-button @click="account()" size="large" style="width: 100px">注册</el-button>
+          <el-button @click="account()" size="large" style="width: 100px" v-if="this.admin==='管理员'">注册</el-button>
         </el-form-item>
       </el-form>
 
@@ -45,7 +45,7 @@
 import Axios from 'axios'
 import $store from '../../store/index.js'
 import {ElMessage} from "element-plus";
-import md5 from "js-md5";
+import {Encrypt, Decrypt} from '../../AES/aes.js';
 export default {
   name: "login",
   data(){
@@ -55,7 +55,7 @@ export default {
         password:'',
         role:1
       },
-      userErr:'*请输入2-20位用户名',
+      userErr:'*请输入2-20位账号',
       passErr:'*请输入6-20位密码',
       admin:'管理员',
       loginbutton:'用户登录'
@@ -66,6 +66,8 @@ export default {
         this.admin='用户'
         this.user.role=0
         this.loginbutton='管理员登录'
+        this.userErr='*请输入4-20位账号'
+        this.passErr='*请输入4-20位密码'
       }else{
         this.admin='管理员'
         this.user.role=1
@@ -80,28 +82,18 @@ export default {
         })
       }else{
         let url=$store.state.url+"login?username="+this.user.username+"&role="+this.user.role
-        Axios.post(url)
-            .then(response => {//请求成功处理
+        Axios.post(url).then(response => {//请求成功处理
               if(response.data==''){
                 console.log(response.data)
-                ElMessage({
-                  message: '暂无此用户',
-                  type: 'error',
-                })
-              }else if(response.data.password!=this.user.password){
-                ElMessage({
-                  message: '密码输入错误',
-                  type: 'error',
-                })
+                ElMessage({ message: '暂无此用户', type: 'error', })
+              }else if(Decrypt(response.data.password)!=this.user.password){
+                ElMessage({ message: '密码输入错误', type: 'error', })
               }else{
                 this.selectAndInsertCart(response.data.id);
-                ElMessage({
-                  message: '登录成功',
-                  type: 'success',
-                })
+                ElMessage({ message: '登录成功', type: 'success',})
                 this.$cookies.set("id",response.data.id,"1d");
                 this.$cookies.set("username",response.data.username,"1d");
-                this.$cookies.set("password",response.data.username,"1d");
+                this.$cookies.set("password",response.data.password,"1d");
                 this.$cookies.set("role",response.data.role,"1d");
                 this.$cookies.set("email",response.data.email,"1d");
                 this.$cookies.set("gender",response.data.gender,"1d");

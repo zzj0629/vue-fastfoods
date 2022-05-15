@@ -10,6 +10,7 @@
     "@element-plus/icons-vue": "^1.1.4",
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "crypto-js": "^4.1.1",
     "element-plus": "^2.1.10",
     "js-md5": "^0.7.3",
     "vue": "^3.2.13",
